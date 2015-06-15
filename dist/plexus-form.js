@@ -901,7 +901,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return list;
 	  },
 	  object: function(fields, props) {
-	    var keys = fullOrdering(props.schema['x-ordering'], props.schema.properties);
+		  var keys = (props.schema['x-ordering']
+			? fullOrdering(props.schema['x-ordering'], props.schema.properties)
+			: Object.keys(props.schema.properties));
 
 	    return keys.map(function(key) {
 	      return fields.make(fields, ou.merge(props, {
@@ -950,7 +952,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	var errorClass = function(errors) {
-	  return (errors === null || errors.length === 0) ? '' : 'error';
+	  return ((errors && errors.length) ? 'error' : '');
 	};
 
 	var makeTitle = function(description, errors) {
@@ -958,7 +960,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (description !== null && description.length > 0) {
 	    parts.push(description);
 	  }
-	  if (errors !== null && errors.length > 0) {
+	  if (errors && errors.length) {
 	    parts.push(errors.join('\n'));
 	  }
 	  return parts.join('\n\n');
